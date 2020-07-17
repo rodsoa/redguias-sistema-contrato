@@ -25,3 +25,13 @@ Route::resource('customers', 'CustomersController');
 
 /* Agreements Routes */
 Route::resource('agreements', 'AgreementsController');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', function() {
+    return view('home');
+})->name('home')->middleware('auth');
