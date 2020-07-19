@@ -20,6 +20,19 @@ class Customer extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'company_name',
+        'cnpj',
+        'address',
+        'address_number',
+        'address_complement',
+        'neighborhood',
+        'zipcode',
+        'uf',
+        'phone_number',
+        'cellphone_number',
+        'contact_name',
+        'email',
+    ];
 
 }
