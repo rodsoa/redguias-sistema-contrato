@@ -25,6 +25,7 @@ class CreateCustomersTable extends Migration
             $table->string('address_complement')->nullable();
             $table->string('neighborhood')->nullable();
             $table->string('zipcode', 12)->nullable();
+            $table->string('city', 50)->nullable();
             $table->string('uf', 20)->nullable();
             $table->string('phone_number', 20)->nullable();
             $table->string('cellphone_number', 20)->nullable();

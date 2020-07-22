@@ -4,12 +4,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Clientes do sistema</h1>
+                <h1>Contratos do sistema</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Início</a></li>
-                    <li class="breadcrumb-item active">Clientes</li>
+                    <li class="breadcrumb-item"><a href="/">Início</a></li>
+                    <li class="breadcrumb-item active">Contratos</li>
                 </ol>
             </div>
         </div>
@@ -22,14 +22,14 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title" style="padding-top: 6px">
-                        Clientes
+                        Contratos
                         <small>
                             cadastrados no sistema
                         </small>
                     </h3>
 
                     <div class="float-right">
-                        <a href="{{route('customers.create')}}" class="btn btn-sm btn-primary">
+                        <a href="{{route('agreements.create')}}" class="btn btn-sm btn-primary">
                             <i class="fa fa-fw fa-plus-circle"></i>
                             Adicionar
                         </a>
@@ -40,54 +40,68 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <table
-                                id="customers-table"
+                                id="agreements-table"
                                 class="table table-bordered table-striped dataTable"
                                 role="grid"
                                 aria-describedby="example1_info">
                                 <thead>
                                     <tr role="row">
+                                        <th>Data</th>
                                         <th>Cliente</th>
-                                        <th>CNPJ</th>
-                                        <th>Telefone</th>
-                                        <th>Contato</th>
+                                        <th>Edição</th>
+                                        <th>Total</th>
+                                        <th>Entrega</th>
+                                        <th>Vendedor</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($customers as $customer)
+                                    @foreach($agreements as $agreement)
                                         <tr>
-                                            <td>{{$customer->company_name}}</td>
-                                            <td>{{$customer->cnpj}}</td>
-                                            <td>{{$customer->phone_number}}</td>
-                                            <td>{{$customer->contact_name}}</td>
+                                            <td>{{$agreement->created_at->format('d-m-Y')}}</td>
+                                            <td>{{$agreement->customer->company_name}}</td>
+                                            <td>{{$agreement->created_at->format('Y')}}</td>
+                                            <td>R$ {{number_format($agreement->totalValue(), 2, ',', '.')}}</td>
+                                            <td>{{$agreement->deadline->format('d-m-Y')}}</td>
+                                            <td>{{optional($agreement->employee)->name}}</td>
                                             <td>
                                                 <div class="btn-group btn-group-sm">
-                                                    <a href="{{route('agreements.index', ['customer' => $customer->id])}}" type="button" class="btn btn-secondary"
-                                                       title="contratos">
+                                                    <a href="{{route('agreements.renew',['agreement' => $agreement->id])}}" type="button" class="btn btn-secondary"
+                                                       title="renovar">
                                                         <i class="fa fa-fw fa-file-pdf"></i>
-                                                        contratos
+                                                        renovar
                                                     </a>
                                                     <a
                                                         type="button"
                                                         class="btn btn-secondary"
-                                                        href="{{route('customers.edit', ['customer' => $customer->id])}}"
+                                                        href="{{route('agreements.edit', ['agreement' => $agreement->id])}}"
                                                         title="editar"
                                                     >
                                                         <i class="fa fa-fw fa-user-edit"></i>
                                                         editar
+                                                    </a>
+                                                    <a
+                                                        type="button"
+                                                        class="btn btn-secondary"
+                                                        href="{{route('agreements.edit', ['agreement' => $agreement->id])}}"
+                                                        title="email"
+                                                    >
+                                                        <i class="fa fa-fw fa-mail-bulk"></i>
+                                                        email
                                                     </a>
                                                     @role('admin')
                                                     <button
                                                         type="button"
                                                         class="btn btn-danger"
                                                         title="deletar"
-                                                        onclick="deleteCustomer({{$customer->id}})"
+                                                        onclick="deleteAgreement({{$agreement->id}})"
                                                     >
                                                         <i class="fa fa-fw fa-trash"></i>
                                                         deletar
                                                     </button>
                                                     @endrole
                                                 </div>
+
                                             </td>
                                         </tr>
                                     @endforeach
@@ -108,12 +122,12 @@
 
 @section('js')
     <script>
-        $('#customers-table').dataTable();
+        $('#agreements-table').dataTable();
 
-        function deleteCustomer(id) {
+        function deleteAgreement(id) {
             if (confirm('Tem certeza dessa ação ?')) {
                 const form = $('form[name="delete-form"]');
-                form.attr('action', `/customers/${id}`);
+                form.attr('action', `/agreements/${id}`);
                 form.submit();
             }
         }

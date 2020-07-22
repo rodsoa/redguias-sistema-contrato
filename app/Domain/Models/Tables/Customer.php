@@ -3,6 +3,7 @@
 namespace App\Domain\Models\Tables;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
@@ -29,10 +30,15 @@ class Customer extends Model implements Transformable
         'neighborhood',
         'zipcode',
         'uf',
+        'city',
         'phone_number',
         'cellphone_number',
         'contact_name',
         'email',
     ];
 
+    public function agreements(): HasMany
+    {
+        return $this->hasMany(Agreement::class, 'customer_id');
+    }
 }

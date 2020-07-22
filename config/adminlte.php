@@ -306,11 +306,18 @@ return [
             'text'       => 'Usuários',
             'icon_color' => 'cyan',
             'route'        => 'users.index',
+            'can'        => ['admin-only']
         ],
         [
             'text'       => 'Configurações',
             'icon_color' => 'cyan',
             'url'        => '#',
+            'can'        => ['admin-only']
+        ],
+        [
+            'text'       => 'Sair',
+            'icon_color' => 'cyan',
+            'url'        => '/logout'
         ],
     ],
 

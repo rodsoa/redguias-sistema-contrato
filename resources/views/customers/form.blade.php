@@ -1,3 +1,7 @@
+@php
+    $btnSubmitLabel = $isUpdate ? 'Atualizar' : 'Cadastrar'
+@endphp
+
 <div class="row">
     <!-- left column -->
     <div class="col-md-12">
@@ -8,7 +12,7 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form role="form" action="{{ $action }}" method="POST">
+            <form id="customers-form" role="form" action="{{ $action }}" method="POST">
                 @csrf
                 @if($isUpdate)
                     @method('PUT')
@@ -74,7 +78,10 @@
 
                 <div class="card-footer">
                     <div class="float-right">
-                        <button type="submit" class="btn btn-primary">Enviar</button>
+                        <button type="submit" class="btn btn-primary">{{ $btnSubmitLabel }}</button>
+                        @if(!$isUpdate)
+                            <button id="btnCreateAndMakeNewAgreement" type="button" class="btn btn-primary">{{ $btnSubmitLabel }} e criar cadastro</button>
+                        @endif
                         <a role="button" class="btn btn-danger" href="{{ route('customers.index') }}">Cancelar</a>
                     </div>
                 </div>
@@ -85,3 +92,13 @@
     <!--/.col (left) -->
     <!-- right column -->
 </div>
+
+@section('js')
+    <script>
+        $('#btnCreateAndMakeNewAgreement').click(function(){
+            const form = $('#customers-form');
+            form.attr('action', '/customers/store-and-create-contract');
+            form.submit();
+        })
+    </script>
+@stop

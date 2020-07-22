@@ -12,26 +12,24 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', function() {
+    return redirect('home');
 });
 
 /* Users Routes */
-Route::resource('users', 'UsersController');
+Route::resource('users', 'UsersController')->middleware('auth');
 
 /* Customers Routes */
-Route::resource('customers', 'CustomersController');
+Route::post('customers/store-and-create-contract', 'CustomersController@storeAndCreateNewAgreement')->middleware('auth');
+Route::resource('customers', 'CustomersController')->middleware('auth');
 
 /* Agreements Routes */
-Route::resource('agreements', 'AgreementsController');
+Route::get('agreements/{agreement}/renew', 'AgreementsController@renew')->name('agreements.renew')->middleware('auth');
+Route::resource('agreements', 'AgreementsController')->middleware('auth');
+
+
+Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', function() {
-    return view('home');
-})->name('home')->middleware('auth');
+Route::get('/logout', 'HomeController@logout')->middleware('auth');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');

@@ -3,6 +3,7 @@
 namespace App\Domain\Models\Tables;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
@@ -20,6 +21,44 @@ class Agreement extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'employee_id',
+        'customer_id',
+        'service_contractor',
+        'deadline',
+        'categories',
+        'phones',
+        'advertisement',
+        'region',
+        'modifications',
+        'observations',
+        'payment',
+        'input_value',
+        'installments',
+        'installment_value',
+        'owner',
+        'version',
+        'signature'
+    ];
 
+    protected $dates = [
+        'deadline'
+    ];
+
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class, 'customer_id');
+    }
+
+    public function employee(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'employee_id');
+    }
+
+    public function totalValue(): float
+    {
+        $value = ( $this->installments  * $this->installment_value ) + $this->input_value;
+
+        return $value;
+    }
 }

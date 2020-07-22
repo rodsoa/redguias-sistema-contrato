@@ -4,12 +4,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Clientes do sistema</h1>
+                <h1>Usuários do sistema</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Início</a></li>
-                    <li class="breadcrumb-item active">Clientes</li>
+                    <li class="breadcrumb-item active">Usuarios</li>
                 </ol>
             </div>
         </div>
@@ -29,7 +29,7 @@
                     </h3>
 
                     <div class="float-right">
-                        <a href="{{route('customers.create')}}" class="btn btn-sm btn-primary">
+                        <a href="{{route('users.create')}}" class="btn btn-sm btn-primary">
                             <i class="fa fa-fw fa-plus-circle"></i>
                             Adicionar
                         </a>
@@ -40,53 +40,42 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <table
-                                id="customers-table"
+                                id="users-table"
                                 class="table table-bordered table-striped dataTable"
                                 role="grid"
                                 aria-describedby="example1_info">
                                 <thead>
                                     <tr role="row">
-                                        <th>Cliente</th>
-                                        <th>CNPJ</th>
-                                        <th>Telefone</th>
-                                        <th>Contato</th>
+                                        <th>Nome</th>
+                                        <th>Email</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($customers as $customer)
+                                    @foreach($users as $user)
                                         <tr>
-                                            <td>{{$customer->company_name}}</td>
-                                            <td>{{$customer->cnpj}}</td>
-                                            <td>{{$customer->phone_number}}</td>
-                                            <td>{{$customer->contact_name}}</td>
-                                            <td>
+                                            <td>{{$user->name}}</td>
+                                            <td>{{$user->email}}</td>
+                                            <td class="text-right">
                                                 <div class="btn-group btn-group-sm">
-                                                    <a href="{{route('agreements.index', ['customer' => $customer->id])}}" type="button" class="btn btn-secondary"
-                                                       title="contratos">
-                                                        <i class="fa fa-fw fa-file-pdf"></i>
-                                                        contratos
-                                                    </a>
                                                     <a
                                                         type="button"
                                                         class="btn btn-secondary"
-                                                        href="{{route('customers.edit', ['customer' => $customer->id])}}"
+                                                        href="{{route('users.edit', ['user' => $user->id])}}"
                                                         title="editar"
                                                     >
                                                         <i class="fa fa-fw fa-user-edit"></i>
                                                         editar
                                                     </a>
-                                                    @role('admin')
                                                     <button
                                                         type="button"
                                                         class="btn btn-danger"
                                                         title="deletar"
-                                                        onclick="deleteCustomer({{$customer->id}})"
+                                                        onclick="deleteuser({{$user->id}})"
                                                     >
                                                         <i class="fa fa-fw fa-trash"></i>
                                                         deletar
                                                     </button>
-                                                    @endrole
                                                 </div>
                                             </td>
                                         </tr>
@@ -108,12 +97,12 @@
 
 @section('js')
     <script>
-        $('#customers-table').dataTable();
+        $('#users-table').dataTable();
 
-        function deleteCustomer(id) {
-            if (confirm('Tem certeza dessa ação ?')) {
+        function deleteuser(id) {
+            if (confirm('Tem certeza dessa ação ? Caso o usuário tenha contrato associado o mesmo será deletado.')) {
                 const form = $('form[name="delete-form"]');
-                form.attr('action', `/customers/${id}`);
+                form.attr('action', `/users/${id}`);
                 form.submit();
             }
         }
