@@ -28,6 +28,7 @@ class CustomerSeeder extends Seeder
                             'region' => "BHTE",
                             'categories' => 'Categoria 1, Categoria 2, Categoria 3',
                             'phones' => '(00) 00000-0000, (00) 10000-2200',
+                            'comercial_address' => 'Endereço 1, Endereço 2',
                             'modifications' => null,
                             'observations' => null,
                             'payment' => 'bank_check',

@@ -27,6 +27,7 @@ class CreateAgreementsTable extends Migration
             $table->string('region');
             $table->text('categories');
             $table->string('phones')->nullable();
+            $table->string('comercial_address')->nullable();
             $table->text('modifications')->nullable();
             $table->string('observations')->nullable();
             $table->enum('payment', ['bank_check', 'credit_card'])->default('credit_card');

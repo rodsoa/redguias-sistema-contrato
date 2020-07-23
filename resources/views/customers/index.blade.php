@@ -39,12 +39,13 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            <table
-                                id="customers-table"
-                                class="table table-bordered table-striped dataTable"
-                                role="grid"
-                                aria-describedby="example1_info">
-                                <thead>
+                            <div class="table-responsive">
+                                <table
+                                    id="customers-table"
+                                    class="table table-bordered table-striped dataTable"
+                                    role="grid"
+                                    aria-describedby="example1_info">
+                                    <thead>
                                     <tr role="row">
                                         <th>Cliente</th>
                                         <th>CNPJ</th>
@@ -52,8 +53,8 @@
                                         <th>Contato</th>
                                         <th></th>
                                     </tr>
-                                </thead>
-                                <tbody>
+                                    </thead>
+                                    <tbody>
                                     @foreach($customers as $customer)
                                         <tr>
                                             <td>{{$customer->company_name}}</td>
@@ -62,10 +63,10 @@
                                             <td>{{$customer->contact_name}}</td>
                                             <td>
                                                 <div class="btn-group btn-group-sm">
-                                                    <a href="{{route('agreements.index', ['customer' => $customer->id])}}" type="button" class="btn btn-secondary"
-                                                       title="contratos">
+                                                    <a href="{{route('agreements.create', ['customer' => $customer->id])}}" type="button" class="btn btn-secondary"
+                                                       title="contrato">
                                                         <i class="fa fa-fw fa-file-pdf"></i>
-                                                        contratos
+                                                        contrato
                                                     </a>
                                                     <a
                                                         type="button"
@@ -91,8 +92,9 @@
                                             </td>
                                         </tr>
                                     @endforeach
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -108,7 +110,9 @@
 
 @section('js')
     <script>
-        $('#customers-table').dataTable();
+        $('#customers-table').dataTable({
+            responsive: true
+        });
 
         function deleteCustomer(id) {
             if (confirm('Tem certeza dessa ação ?')) {

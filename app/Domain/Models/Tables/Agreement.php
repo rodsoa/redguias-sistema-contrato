@@ -28,6 +28,7 @@ class Agreement extends Model implements Transformable
         'deadline',
         'categories',
         'phones',
+        'comercial_address',
         'advertisement',
         'region',
         'modifications',

@@ -64,63 +64,65 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            <table
-                                id="agreements-table"
-                                class="table table-bordered table-striped dataTable"
-                                role="grid"
-                                aria-describedby="example1_info">
-                                <thead>
-                                <tr role="row">
-                                    <th>Data</th>
-                                    <th>Cliente</th>
-                                    <th>Edição</th>
-                                    <th>Total</th>
-                                    <th>Entrega</th>
-                                    <th>Vendedor</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($latests as $agreement)
-                                    <tr>
-                                        <td>{{$agreement->created_at->format('d-m-Y')}}</td>
-                                        <td>{{$agreement->customer->company_name}}</td>
-                                        <td>{{$agreement->created_at->format('Y')}}</td>
-                                        <td>R$ {{number_format($agreement->totalValue(), 2, ',', '.')}}</td>
-                                        <td>{{$agreement->deadline->format('d-m-Y')}}</td>
-                                        <td>{{optional($agreement->employee)->name}}</td>
-                                        <td>
-                                            <div class="btn-group btn-group-sm">
-                                                <a href="{{route('agreements.renew',['agreement' => $agreement->id])}}" type="button" class="btn btn-secondary"
-                                                   title="renovar">
-                                                    <i class="fa fa-fw fa-file-pdf"></i>
-                                                    renovar
-                                                </a>
-                                                <a
-                                                    type="button"
-                                                    class="btn btn-secondary"
-                                                    href="{{route('agreements.edit', ['agreement' => $agreement->id])}}"
-                                                    title="editar"
-                                                >
-                                                    <i class="fa fa-fw fa-user-edit"></i>
-                                                    editar
-                                                </a>
-                                                <a
-                                                    type="button"
-                                                    class="btn btn-secondary"
-                                                    href="{{route('agreements.edit', ['agreement' => $agreement->id])}}"
-                                                    title="email"
-                                                >
-                                                    <i class="fa fa-fw fa-mail-bulk"></i>
-                                                    email
-                                                </a>
-                                            </div>
-
-                                        </td>
+                            <div class="table-responsive">
+                                <table
+                                    id="agreements-table"
+                                    class="table table-bordered table-striped dataTable"
+                                    role="grid"
+                                    aria-describedby="example1_info">
+                                    <thead>
+                                    <tr role="row">
+                                        <th>Data</th>
+                                        <th>Cliente</th>
+                                        <th>Edição</th>
+                                        <th>Total</th>
+                                        <th>Entrega</th>
+                                        <th>Vendedor</th>
+                                        <th></th>
                                     </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($latests as $agreement)
+                                        <tr>
+                                            <td>{{$agreement->created_at->format('d-m-Y')}}</td>
+                                            <td>{{$agreement->customer->company_name}}</td>
+                                            <td>{{$agreement->created_at->format('Y')}}</td>
+                                            <td>R$ {{number_format($agreement->totalValue(), 2, ',', '.')}}</td>
+                                            <td>{{$agreement->deadline->format('d-m-Y')}}</td>
+                                            <td>{{optional($agreement->employee)->name}}</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="{{route('agreements.renew',['agreement' => $agreement->id])}}" type="button" class="btn btn-secondary"
+                                                       title="renovar">
+                                                        <i class="fa fa-fw fa-file-pdf"></i>
+                                                        renovar
+                                                    </a>
+                                                    <a
+                                                        type="button"
+                                                        class="btn btn-secondary"
+                                                        href="{{route('agreements.edit', ['agreement' => $agreement->id])}}"
+                                                        title="editar"
+                                                    >
+                                                        <i class="fa fa-fw fa-user-edit"></i>
+                                                        editar
+                                                    </a>
+                                                    <a
+                                                        type="button"
+                                                        class="btn btn-secondary"
+                                                        href="{{route('agreements.edit', ['agreement' => $agreement->id])}}"
+                                                        title="email"
+                                                    >
+                                                        <i class="fa fa-fw fa-mail-bulk"></i>
+                                                        email
+                                                    </a>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -132,6 +134,8 @@
 
 @section('js')
     <script>
-        $('#agreements-table').dataTable();
+        $('#agreements-table').dataTable({
+            responsive: true
+        });
     </script>
 @stop

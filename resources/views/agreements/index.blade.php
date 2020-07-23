@@ -39,12 +39,13 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            <table
-                                id="agreements-table"
-                                class="table table-bordered table-striped dataTable"
-                                role="grid"
-                                aria-describedby="example1_info">
-                                <thead>
+                            <div class="table-responsive">
+                                <table
+                                    id="agreements-table"
+                                    class="table table-bordered table-striped dataTable"
+                                    role="grid"
+                                    aria-describedby="example1_info">
+                                    <thead>
                                     <tr role="row">
                                         <th>Data</th>
                                         <th>Cliente</th>
@@ -54,8 +55,8 @@
                                         <th>Vendedor</th>
                                         <th></th>
                                     </tr>
-                                </thead>
-                                <tbody>
+                                    </thead>
+                                    <tbody>
                                     @foreach($agreements as $agreement)
                                         <tr>
                                             <td>{{$agreement->created_at->format('d-m-Y')}}</td>
@@ -105,8 +106,9 @@
                                             </td>
                                         </tr>
                                     @endforeach
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -122,7 +124,9 @@
 
 @section('js')
     <script>
-        $('#agreements-table').dataTable();
+        $('#agreements-table').dataTable({
+            responsive: true
+        });
 
         function deleteAgreement(id) {
             if (confirm('Tem certeza dessa ação ?')) {

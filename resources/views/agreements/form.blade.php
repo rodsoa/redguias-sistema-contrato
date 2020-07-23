@@ -32,7 +32,7 @@
                 <div class="card-body">
                     <div class="row">
                         @if(!$isUpdate && !$agreement)
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-3">
                                 <label for="customer">Cliente</label>
                                 <select type="text" class="form-control" id="customer_id" name="customer_id">
                                     @foreach($customers as $c)
@@ -45,7 +45,7 @@
                             <label for="deadline">Entrega</label>
                             <input
                                 type="text"
-                                class="form-control"
+                                class="form-control date"
                                 id="deadline"
                                 placeholder="00/00/0000"
                                 value="{{ optional(optional($agreement)->deadline)->format('d-m-Y') }}"
@@ -53,16 +53,29 @@
                             >
                         </div>
                         <div class="form-group col-sm-2">
-                            <label for="deadline">Versão</label>
+                            <label for="deadline">Edição</label>
                             <input
                                 type="text"
                                 class="form-control"
                                 id="version"
-                                placeholder="version"
+                                placeholder="Edição"
                                 value="{{ optional($agreement)->version }}"
                                 name="version"
                             >
                         </div>
+
+                            <div class="form-group col-sm-2">
+                                <label for="zipcode">Cep</label>
+                                <input type="text" class="form-control" id="zipcode" name="zipcode" placeholder="CEP" value="{{ optional(optional($customer))->zipcode }}" readonly>
+                            </div>
+                            <div class="form-group col-sm-1">
+                                <label for="uf">Uf</label>
+                                <input type="text" class="form-control" id="uf" name="uf" placeholder="UF" value="{{ optional(optional($customer))->uf }}" readonly>
+                            </div>
+                            <div class="form-group col-sm-2">
+                                <label for="city">Cidade</label>
+                                <input type="text" class="form-control" id="city" value="{{ optional(optional($customer))->city }}" readonly>
+                            </div>
                     </div>
 
                     <div class="row">
@@ -72,51 +85,34 @@
                         </div>
                         <div class="form-group col-sm-3">
                             <label for="cnpj">CNPJ</label>
-                            <input type="text" class="form-control disabled" id="cnpj" placeholder="CNPJ" value="{{ optional($customer)->cnpj }}" readonly>
+                            <input type="text" class="form-control cnpj disabled" id="cnpj" placeholder="CNPJ" value="{{ optional($customer)->cnpj }}" readonly>
                         </div>
                         <div class="form-group col-sm-3">
                             <label for="deadline">Data</label>
                             <input
                                 type="text"
-                                class="form-control"
-                                id="deadline"
-                                placeholder="deadline"
+                                class="form-control date"
                                 value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
-                                @if($isUpdate) name="deadline" readonly @endif
+                                readonly
                             >
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="form-group col-sm-2">
-                            <label for="zipcode">Cep</label>
-                            <input type="text" class="form-control" id="zipcode" name="zipcode" placeholder="CEP" value="{{ optional(optional($customer))->zipcode }}" readonly>
-                        </div>
-                        <div class="form-group col-sm-1">
-                            <label for="uf">Uf</label>
-                            <input type="text" class="form-control" id="uf" name="uf" placeholder="UF" value="{{ optional(optional($customer))->uf }}" readonly>
-                        </div>
                         <div class="form-group col-sm-3">
-                            <label for="city">Cidade</label>
-                            <input type="text" class="form-control" id="city" value="{{ optional(optional($customer))->city }}" readonly>
-                        </div>
-                        <div class="form-group col-sm-6">
-                            <label for="address">Endereço Comercial</label>
-                            <input type="text" class="form-control" id="address" placeholder="Endereço" value="{{ optional(optional($customer))->address }}" readonly>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-sm-4">
                             <label for="categories">Categorias</label>
                             <textarea class="form-control" id="categories" name="categories" placeholder="Categoria 1, Categoria 2, etc">{{ optional($agreement)->categories }}</textarea>
                         </div>
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-3">
+                            <label for="address">Endereço Comercial</label>
+                            <textarea class="form-control" id="address" placeholder="Endereço" name="comercial_address">{{ optional(optional($agreement))->comercial_address }}</textarea>
+                        </div>
+                        <div class="form-group col-sm-3">
                             <label for="phones">Telefones</label>
                             <textarea class="form-control" id="phones" name="phones" placeholder="(xx) xxxx-xxxx, (xx) xxxx-xxxx, etc">{{ optional($agreement)->phones }}</textarea>
                         </div>
 
-                        <div class="col-sm-4" style="padding-left: 12px;padding-top: 38px">
+                        <div class="col-sm-3" style="padding-left: 12px;padding-top: 38px">
                             @php
                                 $ads = ['faixa', 'cartão', 'logo', '1/4 pág', '1/2 pág', '1 pág'];
                             @endphp
@@ -143,10 +139,12 @@
                     <div class="row">
                         <div class="form-group col-sm-4">
                             <label for="employee_id">Vendedor</label>
-                            <select type="text" class="form-control" id="employee_id" name="employee_id">
-                                @foreach($employees as $employee)
-                                    <option value="{{ $employee->id }}" @if($employee->id == optional($agreement)->employee_id) selected @endif>{{ $employee->name }}</option>
-                                @endforeach
+                            <select type="text" class="form-control" id="employee_id" name="employee_id" @if($isUpdate) readonly @endif>
+                                @if($isUpdate)
+                                    <option value="{{ optional($agreement)->employee_id }}" selected >{{ optional($agreement)->employee->name }}</option>
+                                @else
+                                    <option value="{{ auth()->user()->id }}" selected>{{ auth()->user()->name }}</option>
+                                @endif
                             </select>
                         </div>
                         <div class="form-group col-sm-4">
@@ -187,7 +185,7 @@
 
                                 <div class="form-group col-sm-2">
                                     <label for="input_value">Sinal</label>
-                                    <input type="text" class="form-control" id="input_value" name="input_value" value="{{ optional($agreement)->input_value }}">
+                                    <input type="text" class="form-control money2" id="input_value" name="input_value" value="{{ number_format(optional($agreement)->input_value, 2, ",", ".") }}">
                                 </div>
 
                                 <div class="form-group col-sm-2">
@@ -197,11 +195,11 @@
 
                                 <div class="form-group col-sm-2">
                                     <label for="installment_value">Valor</label>
-                                    <input type="text" class="form-control" id="installment_value" name="installment_value" value="{{ optional($agreement)->installment_value }}">
+                                    <input type="text" class="form-control money2" id="installment_value" name="installment_value" value="{{ number_format(optional($agreement)->installment_value, 2, ",", ".") }}">
                                 </div>
                                 <div class="form-group col-sm-2">
                                     <label for="installment_value">Total</label>
-                                    <input type="text" class="form-control bg-warning" value="{{ optional($agreement)->totalValue() }}">
+                                    <input type="text" class="form-control bg-warning money2" value="{{ number_format(optional($agreement)->totalValue(), 2, ",", ".") }}">
                                 </div>
                             </div>
                         </div>
@@ -241,6 +239,7 @@
 
 @section("js")
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@3.0.0-beta.3/dist/signature_pad.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-mask-plugin@1.14.16/dist/jquery.mask.min.js" integrity="sha256-Kg2zTcFO9LXOc7IwcBx1YeUBJmekycsnTsq2RuFHSZU=" crossorigin="anonymous"></script>
     <script>
         var canvas = document.querySelector("canvas");
         var signaturePad = new SignaturePad(canvas);
@@ -252,6 +251,16 @@
         if ( $('#signature').val() != null ||  $('#signature') != '') {
             signaturePad.fromDataURL($('#signature').val());
         }
+
+        /**
+         * MASCARAS
+         */
+        $('.date').mask('00/00/0000');
+        $('.cep').mask('00000-000');
+        $('.phone').mask('0000-0000');
+        $('.phone_with_ddd').mask('(00) 0000-0000');
+        $('.cnpj').mask('00.000.000/0000-00', {reverse: true});
+        $('.money2').mask("#.##0,00", {reverse: true});
 
         // Clears the canvas
         function clearSignaturePad() {

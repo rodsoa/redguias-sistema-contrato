@@ -40,8 +40,7 @@ class AgreementService
 
     public function create(array $data) : Agreement
     {
-        data_set($data, 'advertisement', implode(',', data_get($data, 'advertisement')));
-        data_set($data, 'deadline', Carbon::createFromFormat('d-m-Y', data_get($data,'deadline'))->toDateString());
+        $this->formatValues($data);
         data_set($data, 'employee_id', Auth::user()->id);
         return $this->repository->create($data);
     }
@@ -53,7 +52,7 @@ class AgreementService
      */
     public function update(array $data, int $id)
     {
-        data_set($data, 'advertisement', implode(',', data_get($data, 'advertisement')));
+        $this->formatValues($data);
         return $this->repository->update($data, $id);
     }
 
@@ -70,5 +69,17 @@ class AgreementService
         }
 
         return true;
+    }
+
+    private function strToFloat(string $money): float
+    {
+        return (float)str_replace(",", ".",str_replace(".","",$money));
+    }
+
+    private function formatValues(array &$data):void {
+        data_set($data, 'advertisement', implode(',', data_get($data, 'advertisement')));
+        data_set($data, 'deadline', Carbon::createFromFormat('d/m/Y', data_get($data,'deadline'))->toDateString());
+        data_set($data, 'input_value', $this->strToFloat(data_get($data, 'input_value')));
+        data_set($data, 'installment_value', $this->strToFloat(data_get($data, 'installment_value')));
     }
 }

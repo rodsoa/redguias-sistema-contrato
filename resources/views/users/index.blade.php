@@ -39,19 +39,20 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            <table
-                                id="users-table"
-                                class="table table-bordered table-striped dataTable"
-                                role="grid"
-                                aria-describedby="example1_info">
-                                <thead>
+                            <div class="table-responsive">
+                                <table
+                                    id="users-table"
+                                    class="table table-bordered table-striped dataTable"
+                                    role="grid"
+                                    aria-describedby="example1_info">
+                                    <thead>
                                     <tr role="row">
                                         <th>Nome</th>
                                         <th>Email</th>
                                         <th></th>
                                     </tr>
-                                </thead>
-                                <tbody>
+                                    </thead>
+                                    <tbody>
                                     @foreach($users as $user)
                                         <tr>
                                             <td>{{$user->name}}</td>
@@ -80,8 +81,9 @@
                                             </td>
                                         </tr>
                                     @endforeach
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -97,7 +99,9 @@
 
 @section('js')
     <script>
-        $('#users-table').dataTable();
+        $('#users-table').dataTable({
+            responsive: true
+        });
 
         function deleteuser(id) {
             if (confirm('Tem certeza dessa ação ? Caso o usuário tenha contrato associado o mesmo será deletado.')) {
