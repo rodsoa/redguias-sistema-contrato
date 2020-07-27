@@ -28,12 +28,12 @@
                         </small>
                     </h3>
 
-                    <div class="float-right">
+                    <!--div class="float-right">
                         <a href="{{route('agreements.create')}}" class="btn btn-sm btn-primary">
                             <i class="fa fa-fw fa-plus-circle"></i>
                             Adicionar
                         </a>
-                    </div>
+                    </div-->
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -50,9 +50,6 @@
                                         <th>Data</th>
                                         <th>Cliente</th>
                                         <th>Edição</th>
-                                        <th>Total</th>
-                                        <th>Entrega</th>
-                                        <th>Vendedor</th>
                                         <th></th>
                                     </tr>
                                     </thead>
@@ -61,11 +58,8 @@
                                         <tr>
                                             <td>{{$agreement->created_at->format('d-m-Y')}}</td>
                                             <td>{{$agreement->customer->company_name}}</td>
-                                            <td>{{$agreement->created_at->format('Y')}}</td>
-                                            <td>R$ {{number_format($agreement->totalValue(), 2, ',', '.')}}</td>
-                                            <td>{{$agreement->deadline->format('d-m-Y')}}</td>
-                                            <td>{{optional($agreement->employee)->name}}</td>
-                                            <td>
+                                            <td>{{$agreement->version}}</td>
+                                            <td class="text-right">
                                                 <div class="btn-group btn-group-sm">
                                                     <a href="{{route('agreements.renew',['agreement' => $agreement->id])}}" type="button" class="btn btn-secondary"
                                                        title="renovar">
@@ -84,7 +78,7 @@
                                                     <a
                                                         type="button"
                                                         class="btn btn-secondary"
-                                                        href="{{route('agreements.edit', ['agreement' => $agreement->id])}}"
+                                                        href="{{route('agreements.download', ['agreement' => $agreement->id])}}"
                                                         title="email"
                                                     >
                                                         <i class="fa fa-fw fa-mail-bulk"></i>

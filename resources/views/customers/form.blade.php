@@ -24,8 +24,8 @@
                             <input type="text" class="form-control" id="company_name" placeholder="Nome do cliente/empresa" name="company_name" value="{{ optional($customer)->company_name }}">
                         </div>
                         <div class="form-group col-sm-4">
-                            <label for="cnpj">CNPJ</label>
-                            <input type="text" class="form-control cnpj" id="cnpj" name="cnpj" placeholder="CNPJ" value="{{ optional($customer)->cnpj }}">
+                            <label for="cnpj">CPF/CNPJ</label>
+                            <input type="text" class="form-control document" id="cnpj" name="cnpj" placeholder="CNPJ" value="{{ optional($customer)->cnpj }}">
                         </div>
                     </div>
 
@@ -101,7 +101,19 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-mask-plugin@1.14.16/dist/jquery.mask.min.js" integrity="sha256-Kg2zTcFO9LXOc7IwcBx1YeUBJmekycsnTsq2RuFHSZU=" crossorigin="anonymous"></script>
     <script>
         $('.cep').mask('00000-000');
-        $('.cnpj').mask('00.000.000/0000-00', {reverse: true});
+
+        $('#cnpj').change(function(){
+            const doc = $('#cnpj');
+            mask = '000.000.000-00';
+            cont = doc.val();
+            console.log(cont.length)
+            if (cont.length === 11 || cont.length === 14) {
+                mask = '000.000.000-00';
+            } else {
+                mask = '00.000.000/0000-00'
+            }
+            $('.documente').mask(mask, {reverse: true});
+        });
 
         $('#btnCreateAndMakeNewAgreement').click(function(){
             const form = $('#customers-form');

@@ -24,6 +24,7 @@ Route::post('customers/store-and-create-contract', 'CustomersController@storeAnd
 Route::resource('customers', 'CustomersController')->middleware('auth');
 
 /* Agreements Routes */
+Route::get('agreements/{agreement}/download', 'AgreementsController@download')->name('agreements.download')->middleware('auth');
 Route::get('agreements/{agreement}/renew', 'AgreementsController@renew')->name('agreements.renew')->middleware('auth');
 Route::resource('agreements', 'AgreementsController')->middleware('auth');
 

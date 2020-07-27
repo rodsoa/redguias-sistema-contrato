@@ -34,9 +34,11 @@
                         @if(!$isUpdate && !$agreement)
                             <div class="form-group col-sm-3">
                                 <label for="customer">Cliente</label>
-                                <select type="text" class="form-control" id="customer_id" name="customer_id">
+                                <select type="text" class="form-control" id="customer_id" name="customer_id" readonly>
                                     @foreach($customers as $c)
-                                        <option value="{{ $c->id }}" @if($c->id == $customer_id) selected @endif>{{ $c->company_name }}</option>
+                                        @if($c->id == $customer_id)
+                                            <option value="{{ $c->id }}"  selected>{{ $c->company_name }}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
@@ -61,6 +63,7 @@
                                 placeholder="Edição"
                                 value="{{ optional($agreement)->version }}"
                                 name="version"
+                                required
                             >
                         </div>
 
@@ -84,7 +87,7 @@
                             <input type="text" class="form-control disabled" id="company_name" placeholder="Nome do cliente/empresa" value="{{optional($customer)->company_name }}" readonly>
                         </div>
                         <div class="form-group col-sm-3">
-                            <label for="cnpj">CNPJ</label>
+                            <label for="cnpj">CPF/CNPJ</label>
                             <input type="text" class="form-control cnpj disabled" id="cnpj" placeholder="CNPJ" value="{{ optional($customer)->cnpj }}" readonly>
                         </div>
                         <div class="form-group col-sm-3">
@@ -92,7 +95,11 @@
                             <input
                                 type="text"
                                 class="form-control date"
-                                value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
+                                @if($isUpdate)
+                                    value="{{ $agreement->created_at->format('d/m/Y') }}"
+                                @else
+                                    value="{{ \Carbon\Carbon::now()->format('d/m/Y') }}"
+                                @endif
                                 readonly
                             >
                         </div>
@@ -101,7 +108,7 @@
                     <div class="row">
                         <div class="form-group col-sm-3">
                             <label for="categories">Categorias</label>
-                            <textarea class="form-control" id="categories" name="categories" placeholder="Categoria 1, Categoria 2, etc">{{ optional($agreement)->categories }}</textarea>
+                            <textarea class="form-control" id="categories" name="categories" placeholder="Categoria 1, Categoria 2, etc" required>{{ optional($agreement)->categories }}</textarea>
                         </div>
                         <div class="form-group col-sm-3">
                             <label for="address">Endereço Comercial</label>
@@ -149,11 +156,22 @@
                         </div>
                         <div class="form-group col-sm-4">
                             <label for="service_contractor">Autorizante</label>
-                            <input type="text" class="form-control" id="service_contractor" name="service_contractor" value="{{ optional($agreement)->service_contractor }}">
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="service_contractor"
+                                name="service_contractor"
+                                @if ($isUpdate)
+                                    value="{{ optional($agreement)->service_contractor }}"
+                                @else
+                                    value="{{ optional($customer)->contact_name }}"
+                                @endif
+                                required
+                            >
                         </div>
                         <div class="form-group col-sm-4">
                             <label for="region">Local</label>
-                            <input type="text" class="form-control" id="region" name="region" value="{{ optional($agreement)->region }}">
+                            <input type="text" class="form-control" id="region" name="region" value="{{ optional($agreement)->region }}" required>
                         </div>
                     </div>
 
@@ -176,7 +194,7 @@
                                         $paymentForm = ['bank_check', 'credit_card'];
                                     @endphp
                                     <label for="owner">Pagamento</label>
-                                    <select type="text" class="form-control" id="payment" name="payment">
+                                    <select type="text" class="form-control" id="payment" name="payment" required>
                                         @foreach($paymentForm as $form)
                                             <option value="{{ $form }}" @if($form == optional($agreement)->payment) selected @endif>{{ $form == 'bank_check' ? 'Cheque' : 'Cartão' }}</option>
                                         @endforeach
@@ -184,16 +202,16 @@
                                 </div>
 
                                 <div class="form-group col-sm-2">
-                                    <label for="input_value">Sinal</label>
+                                    <label for="input_value" required>Sinal</label>
                                     <input type="text" class="form-control money2" id="input_value" name="input_value" value="{{ number_format(optional($agreement)->input_value, 2, ",", ".") }}">
                                 </div>
 
                                 <div class="form-group col-sm-2">
-                                    <label for="installments">Parcelas</label>
-                                    <input type="number" min="0" class="form-control" id="installments" name="installments" value="{{ optional($agreement)->installments }}">
+                                    <label for="installments" required>Parcelas</label>
+                                    <input type="number" min="0" class="form-control" id="installments" name="installments" value="{{ optional($agreement)->installments }}" required>
                                 </div>
 
-                                <div class="form-group col-sm-2">
+                                <div class="form-group col-sm-2" required>
                                     <label for="installment_value">Valor</label>
                                     <input type="text" class="form-control money2" id="installment_value" name="installment_value" value="{{ number_format(optional($agreement)->installment_value, 2, ",", ".") }}">
                                 </div>
@@ -223,6 +241,7 @@
                     <div class="float-right">
                         <button type="button" class="btn btn-default" onclick="clearSignaturePad()">Limpar Assinatura</button>
                         <button type="button" class="btn btn-primary" onclick="submitForm()">{{ $btnSubmitLabel }}</button>
+                        <button type="button" class="btn btn-primary" onclick="submitForm()">{{ $btnSubmitLabel }} e enviar</button>
                         <a role="button" class="btn btn-danger" href="{{ route('agreements.index') }}">Cancelar</a>
                     </div>
                 </div>
@@ -238,6 +257,7 @@
 @stop
 
 @section("js")
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@3.0.0-beta.3/dist/signature_pad.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-mask-plugin@1.14.16/dist/jquery.mask.min.js" integrity="sha256-Kg2zTcFO9LXOc7IwcBx1YeUBJmekycsnTsq2RuFHSZU=" crossorigin="anonymous"></script>
     <script>
@@ -275,7 +295,17 @@
                 );
             }
 
-            $('#agreements-form').submit();
+            if(
+                !$('input[name="advertisement[]"').is(':checked')
+            ) {
+                alert('Campo de anúncio precisa ser marcado ao menos um!');
+            }
+
+            if ( $('#agreements-form').valid() ) {
+                $('#agreements-form').submit();
+            } else {
+                alert('Existem campos a serem preenchidos no formulário');
+            }
         }
     </script>
 @stop

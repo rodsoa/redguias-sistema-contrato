@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Domain\Models\Tables\Customer;
 use App\Domain\Models\Tables\User;
 use App\Domain\Services\AgreementService;
+use Barryvdh\DomPDF\PDF;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\View\View;
 
 class AgreementsController extends Controller
@@ -150,5 +152,16 @@ class AgreementsController extends Controller
             'status' => 'success',
             'message' => 'Cliente apagado da base de dados.'
         ]);
+    }
+
+    public function download(int $id)
+    {
+        $agreement = $this->service->findById($id);
+
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML(
+            view('agreements.agreement', compact('agreement'))
+        );
+        return $pdf->stream();
     }
 }

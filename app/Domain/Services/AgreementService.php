@@ -77,8 +77,15 @@ class AgreementService
     }
 
     private function formatValues(array &$data):void {
-        data_set($data, 'advertisement', implode(',', data_get($data, 'advertisement')));
-        data_set($data, 'deadline', Carbon::createFromFormat('d/m/Y', data_get($data,'deadline'))->toDateString());
+
+        if (data_get($data, 'advertisement')) {
+            data_set($data, 'advertisement', implode(',', data_get($data, 'advertisement')));
+        }
+
+        if (data_get($data, 'deadline')) {
+            data_set($data, 'deadline', Carbon::createFromFormat('d/m/Y', data_get($data,'deadline'))->toDateString());
+        }
+
         data_set($data, 'input_value', $this->strToFloat(data_get($data, 'input_value')));
         data_set($data, 'installment_value', $this->strToFloat(data_get($data, 'installment_value')));
     }

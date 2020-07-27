@@ -22,7 +22,7 @@ class CreateAgreementsTable extends Migration
             $table->unsignedInteger('customer_id');
             $table->string('owner')->nullable();
             $table->string('service_contractor');
-            $table->date('deadline');
+            $table->date('deadline')->nullable();
             $table->text('advertisement');
             $table->string('region');
             $table->text('categories');

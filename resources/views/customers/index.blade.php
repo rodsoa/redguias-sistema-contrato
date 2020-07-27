@@ -48,9 +48,9 @@
                                     <thead>
                                     <tr role="row">
                                         <th>Cliente</th>
-                                        <th>CNPJ</th>
-                                        <th>Telefone</th>
-                                        <th>Contato</th>
+                                        <th>CPF / CNPJ</th>
+                                        <!--th>Telefone</th>
+                                        <th>Contato</th-->
                                         <th></th>
                                     </tr>
                                     </thead>
@@ -59,14 +59,14 @@
                                         <tr>
                                             <td>{{$customer->company_name}}</td>
                                             <td>{{$customer->cnpj}}</td>
-                                            <td>{{$customer->phone_number}}</td>
-                                            <td>{{$customer->contact_name}}</td>
-                                            <td>
+                                            <!--td>{{$customer->phone_number}}</td>
+                                            <td>{{$customer->contact_name}}</td-->
+                                            <td class="text-right">
                                                 <div class="btn-group btn-group-sm">
                                                     <a href="{{route('agreements.create', ['customer' => $customer->id])}}" type="button" class="btn btn-secondary"
                                                        title="contrato">
                                                         <i class="fa fa-fw fa-file-pdf"></i>
-                                                        contrato
+                                                       emitir contrato
                                                     </a>
                                                     <a
                                                         type="button"
