@@ -2,217 +2,221 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Aloha!</title>
+    <title>CONTRATO DE PRESTAÇÃO DE SERVIÇOS - REDGUIAS - {{ date('Y') }}</title>
+<style>
+#imagem {
+width: 1000px;
+height: 670px;
+}
 
-    <style type="text/css">
-        * {
-            font-family: Verdana, Arial, sans-serif;
-        }
+#nome {
+	position: absolute;
+	margin-top: -30px;
+	left: 183px;
+	top: 227px;
+	width: 279px;
+	height: 24px;
+}
+#cidade {
+	position: absolute;
+	margin-top: -30px;
+	left: 530px;
+	top: 226px;
+	width: 254px;
+	height: 23px;
+}
 
-        table {
-            font-size: x-small;
-        }
+#estado {
+	position: absolute;
+	margin-top: -30px;
+	left: 831px;
+	top: 226px;
+	width: 56px;
+	height: 23px;
+}
 
-        tfoot tr td {
-            font-weight: bold;
-            font-size: x-small;
-        }
+#cep {
+	position: absolute;
+	margin-top: -30px;
+	left: 934px;
+	top: 226px;
+	width: 56px;
+	height: 23px;
+}
 
-        .gray {
-            background-color: lightgray
-        }
-    </style>
+#cnpj {
+	position: absolute;
+	margin-top: -30px;
+	left: 109px;
+	top: 258px;
+	width: 317px;
+	height: 23px;
+}
+#autorizante {
+	position: absolute;
+	margin-top: -30px;
+	left: 558px;
+	top: 259px;
+	width: 150px;
+	height: 23px;
+}
+#data {
+	position: absolute;
+	margin-top: -30px;
+	left: 776px;
+	top: 259px;
+	width: 124px;
+	height: 23px;
+}
+#edicao {
+	position: absolute;
+	margin-top: -30px;
+	left: 980px;
+	top: 258px;
+	width: 58px;
+	height: 23px;
+}
+#entrega {
+	position: absolute;
+	margin-top: -30px;
+	left: 864px;
+	top: 145px;
+	width: 156px;
+	height: 23px;
+}
+#destaques {
+	position: absolute;
+	margin-top: -30px;
+	left: 54px;
+	top: 325px;
+	width: 482px;
+	height: 229px;
+}
+#endereco {
+	position: absolute;
+	margin-top: -30px;
+	left: 568px;
+	top: 323px;
+	width: 349px;
+	height: 229px;
+}
+#telefone {
+	position: absolute;
+	margin-top: -30px;
+	left: 934px;
+	top: 323px;
+	width: 95px;
+	height: 229px;
+}
+#modificacoes {
+	position: absolute;
+	margin-top: -30px;
+	left: 567px;
+	top: 584px;
+	width: 464px;
+	height: 46px;
+}
+#local {
+	position: absolute;
+	margin-top: -30px;
+	left: 265px;
+	top: 603px;
+	width: 288px;
+	height: 20px;
+}
+#sinal {
+	position: absolute;
+	margin-top: -30px;
+	left: 113px;
+	top: 648px;
+	width: 89px;
+	height: 20px;
+}
+#parcelas {
+	position: absolute;
+	margin-top: -30px;
+	left: 288px;
+	top: 649px;
+	width: 31px;
+	height: 20px;
+}
+#valorparcelas {
+	position: absolute;
+	margin-top: -30px;
+	left: 357px;
+	top: 649px;
+	width: 93px;
+	height: 20px;
+}
+#total {
+	position: absolute;
+	margin-top: -30px;
+	left: 522px;
+	top: 649px;
+	width: 93px;
+	height: 20px;
+}
+#vendedor {
+	position: absolute;
+	margin-top: -30px;
+	left: 692px;
+	top: 649px;
+	width: 112px;
+	height: 20px;
+}
+#obs {
+	position: absolute;
+	margin-top: -30px;
+	left: 386px;
+	top: 709px;
+	width: 419px;
+	height: 20px;
+}
+#ass {
+	position: absolute;
+	margin-top: -30px;
+	left: 822px;
+	top: 641px;
+	width: 191px;
+	height: 20px;
+}
+.style2 {
+	font-size: 11px;
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.style3 {font-size: 14px; font-weight: bold; font-family: Arial, Helvetica, sans-serif; }
+</style>
 
 </head>
+
 <body>
 
-<table width="100%">
-    <tr>
-        <td valign="top">
-            <img src="{{asset('img/logo.png')}}" alt="" width="150"/>
-        </td>
-        <td align="right" width="100%">
-            <b>CONTRATO DE AUTORIZAÇÃO DE PRESTAÇÃO DE SERVIÇOS</b>
-        </td>
-    </tr>
-
-    <tr>
-        <p style="text-align: justify">
-            A empresa / pessoa natural abaixo-assinada, contrata, em caráter irrevogável, obrigando-se herdeiros
-            e sucessores, a <b>Editora RedGuias., CNPJ 08.956.117/0001-55</b>, estabelecida na Av. Paraná, 373 - Sala 05 - Centro
-            CEP: 30.120-120 - Belo Horizonte - MG para publicar / veicular o anúncio abaixo no guia comercial  pelo de
-            12 (doze) meses, estando ciente que o prazo de entrega do mesmo na praça é de no máximo 180 dias, a contar
-            da autorização. Por estarem justos e contratados firmam o presente e elegem o foro de Belo Horizonte para dirimir
-            eventual conflito.
-        </p>
-    </tr>
-</table>
-
-<hr>
-
-<table width="100%">
-    <tr style="margin-top: 12px">
-        <td><strong>Razão Social:</strong> {{ $agreement->customer->company_name }}</td>
-        <td><strong>Cidade:</strong> {{ $agreement->customer->city }}</td>
-        <td><strong>Estado:</strong> {{ $agreement->customer->uf }}</td>
-        <td><strong>CEP:</strong> {{ $agreement->customer->zipcode }}</td>
-    </tr>
-
-    <tr style="margin-top: 6px">
-        <td><strong>CNPJ/CPF:</strong> {{ $agreement->customer->cnpj }}</td>
-        <td><strong>Autorizante:</strong> {{ $agreement->service_contractor }}</td>
-        <td><strong>Data:</strong> {{ $agreement->created_at->format('d/m/Y') }}</td>
-        <td><strong>Edição:</strong> {{ $agreement->version }}</td>
-    </tr>
-</table>
-
-<br/>
-
-<table width="100%">
-    <thead style="background-color: lightgray;">
-    <tr>
-        <th>Destaque</th>
-        <th>Endereço Comercial</th>
-        <th>Telefone</th>
-    </tr>
-    </thead>
-    <tbody>
-
-    @php
-        $categories = explode(',', $agreement->categories) ?? [];
-        $addresses = explode(',', $agreement->comercial_address) ?? [];
-        $phones = explode(',', $agreement->phones) ?? [];
-    @endphp
-
-    @for($i = 0; $i < count($categories); $i++)
-        <tr>
-            <td>{{ $categories[$i] }}</td>
-            <td align="center">
-                @if(isset($addresses[$i]))
-                    {{$addresses[$i]}}
-                @endif
-            </td>
-            <td align="right">
-                @if(isset($phones[$i]))
-                    {{$phones[$i]}}
-                @endif
-            </td>
-        </tr>
-    @endfor
-    </tbody>
-
-    <!--tfoot>
-    <tr>
-        <td colspan="3"></td>
-        <td align="right">Subtotal $</td>
-        <td align="right">1635.00</td>
-    </tr>
-    <tr>
-        <td colspan="3"></td>
-        <td align="right">Tax $</td>
-        <td align="right">294.3</td>
-    </tr>
-    <tr>
-        <td colspan="3"></td>
-        <td align="right">Total $</td>
-        <td align="right" class="gray">$ 1929.3</td>
-    </tr>
-    </tfoot-->
-</table>
-<br>
-<table width="100%">
-    <thead style="background-color: lightgray;">
-    <tr>
-        <th colspan="7" align="center">Anúncio</th>
-    </tr>
-    <tr>
-        <th>Faixa</th>
-        <th>Cartão</th>
-        <th>Logo</th>
-        <th>1/4 Pag</th>
-        <th>1/2 Pag</th>
-        <th>1 Pag</th>
-        <th>Local</th>
-    </tr>
-    </thead>
-    <tbody>
-        @php
-            $ads = ['faixa', 'cartão', 'logo', '1/4 pág', '1/2 pág', '1 pág'];
-        @endphp
-        <tr>
-            @foreach($ads as $ad)
-                <td align="center">
-                    @if(in_array($ad, explode(",", optional($agreement)->advertisement)))
-                        X
-                    @endif
-                </td>
-            @endforeach
-            <td align="center">{{ $agreement->region }}</td>
-        </tr>
-
-        @if($agreement->modifications)
-        <tr colspan="7">
-            <td>
-                <strong>Modificações:</strong> {{ $agreement->modifications }}
-            </td>
-        </tr>
-        @endif
-    </tbody>
-</table>
-
-<br>
-
-<table width="100%">
-    <tr>
-        <td>
-            <strong>SINAL R$:</strong>
-            <i>
-                {{ number_format($agreement->input_value, 2, ',', '.') }}
-            </i>
-        </td>
-        <td>
-            <strong>PARCELAS RESTANTES:</strong>
-            {{$agreement->installments}}
-            <strong> x R$</strong>
-            <i>
-                {{ number_format($agreement->installment_value, 2, ',', '.') }}
-            </i>
-        </td>
-        <td>
-            <strong>TOTAL R$:</strong>
-            <i>
-                {{ number_format($agreement->totalValue(), 2, ',', '.') }}
-            </i>
-        </td>
-        <td>
-            <strong>VENDEDOR:</strong> {{ $agreement->employee->name }}
-        </td>
-    </tr>
-</table>
-
-<table with="100%">
-    @php
-        $ads = ['credit_card' => 'CARTÃO', 'bank_check' => 'CHEQUE'];
-    @endphp
-    <tr>
-        <td>
-            <strong>FORMA DE PAGAMENTO:</strong> {{ $ads[$agreement->payment] }}
-        </td>
-        <td><strong>OBS</strong>{{ $agreement->observations }}</td>
-    </tr>
-</table>
-
-<table width="100%">
-    <tr style="margin-top: 6px">
-        <td><strong>ENTREGA:</strong> {{ optional(optional($agreement)->deadline)->format('d-m-Y') }}</td>
-    </tr>
-</table>
-
-<div style="text-align: center; margin-top: 30%">
-    <img src="{{ $agreement->signature }}" width="300">
-    <br>
-    <b>Assinatura</b>
+<img style="margin-left:30px; margin-top:30px; " id="imagem" src="{{ public_path('img/contrato.png') }}"/>
+<div id="entrega" class="style3">
+  <div align="center">{{ optional(optional($agreement)->deadline)->format('d-m-Y') }}</div>
 </div>
+<div id="nome" class="style2">{{ $agreement->customer->company_name }}</div>
+<div id="cidade" class="style2">{{ $agreement->customer->city }}</div>
+<div id="estado" class="style2">{{ $agreement->customer->uf }}</div>
+<div id="cep" class="style2">{{ $agreement->customer->zipcode }}</div>
+<div id="cnpj" class="style2">{{ $agreement->customer->cnpj }}</div>
+<div id="autorizante" class="style2">{{ $agreement->service_contractor }}</div>
+<div id="data" class="style2">{{ $agreement->created_at->format('d/m/Y') }}</div>
+<div id="edicao" class="style2">{{ $agreement->version }}</div>
 
+
+<div id="destaques" class="style2"><p> {{ $agreement->categories }}</p></div>
+<div id="endereco" class="style2"> {{ $agreement->comercial_address }}</div>
+<div id="telefone" class="style2">{{ $agreement->phones }}</div>
+<div id="modificacoes" class="style2">{{ $agreement->modifications }}</div>
+<div id="local" class="style2">{{ $agreement->region }}</div>
+<div id="sinal" class="style2">{{ number_format($agreement->input_value, 2, ',', '.') }}</div>
+<div id="parcelas" class="style2">{{$agreement->installments}}</div>
+<div id="valorparcelas" class="style2">{{ number_format($agreement->installment_value, 2, ',', '.') }}</div>
+<div id="total" class="style3">{{ number_format($agreement->totalValue(), 2, ',', '.') }}</div>
+<div id="vendedor" class="style2">{{ $agreement->employee->name }}</div>
+<div id="obs" class="style2">{{ $agreement->observations }}</div>
+<div id="ass" class="style2"><img src="{{ $agreement->signature }}" width="300"></div>
 </body>
 </html>

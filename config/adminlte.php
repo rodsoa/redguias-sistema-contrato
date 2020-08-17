@@ -311,7 +311,7 @@ return [
         [
             'text'       => 'Configurações',
             'icon_color' => 'cyan',
-            'url'        => '#',
+            'route'      => 'configs.edit',
             'can'        => ['admin-only']
         ],
         [

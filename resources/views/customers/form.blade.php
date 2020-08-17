@@ -100,27 +100,6 @@
 @section('js')
     <script src="https://cdn.jsdelivr.net/npm/jquery-mask-plugin@1.14.16/dist/jquery.mask.min.js" integrity="sha256-Kg2zTcFO9LXOc7IwcBx1YeUBJmekycsnTsq2RuFHSZU=" crossorigin="anonymous"></script>
     <script>
-        $('.cep').mask('00000-000');
-
-        $('#cnpj').change(function(){
-            const doc = $('#cnpj');
-            mask = '000.000.000-00';
-            cont = doc.val();
-            console.log(cont.length)
-            if (cont.length === 11 || cont.length === 14) {
-                mask = '000.000.000-00';
-            } else {
-                mask = '00.000.000/0000-00'
-            }
-            $('.documente').mask(mask, {reverse: true});
-        });
-
-        $('#btnCreateAndMakeNewAgreement').click(function(){
-            const form = $('#customers-form');
-            form.attr('action', '/customers/store-and-create-contract');
-            form.submit();
-        })
-
         function limpa_formulário_cep() {
             // Limpa valores do formulário de cep.
             $("#address").val("");
@@ -177,5 +156,50 @@
                 limpa_formulário_cep();
             }
         });
+
+        function remove_character (data) {
+            var str = data.replace(/\./g, "");
+            str = str.replace(/-/g, "");
+            return str.replace(/\//g, "");
+        }
+
+        function applyDocumentMask() {
+            const cnpj = $('#cnpj');
+            if (cnpj.val().length) {
+                const numbers = remove_character(cnpj.val());
+                if (numbers.length > 11) {
+                    cnpj.removeClass('cpf');
+                    cnpj.addClass('cnpj');
+                    $('.cnpj').mask('00.000.000/0000-00', {reverse: true});
+                } else {
+                    cnpj.removeClass('cnpj');
+                    cnpj.addClass('cpf');
+                    $('.cpf').mask('000.000.000-00', {reverse: true});
+                }
+            }
+        }
+
+        /**
+         * eventos
+         */
+
+        $('#cnpj').focusin(function(evt) {
+            const cnpj = $('#cnpj')
+            cnpj.removeClass('cpf');
+            cnpj.removeClass('cnpj');
+            cnpj.unmask();
+        });
+
+        $('#cnpj').blur(function(evt) {
+            applyDocumentMask();
+        });
+
+        $('.cep').mask('00000-000');
+
+        $('#btnCreateAndMakeNewAgreement').click(function(){
+            const form = $('#customers-form');
+            form.attr('action', '/customers/store-and-create-contract');
+            form.submit();
+        })
     </script>
 @stop

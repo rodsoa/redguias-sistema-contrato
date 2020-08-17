@@ -45,6 +45,28 @@
             {{-- Main Content --}}
             <div class="content">
                 <div class="{{ config('adminlte.classes_content') ?: $def_container_class }}">
+
+                    @if ($errors->any())
+                        <br />
+                        <div class="alert alert-danger" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    @if(Session::has('message') && Session::has('status') )
+                        <br />
+                        <div class="alert alert-{{ Session::get('status') }}" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <strong>@if(Session::get('status') == 'danger') Aviso! @else Sucesso! @endif</strong> {{ Session::get('message')}}.
+                        </div>
+                    @endif
+
+
                     @yield('content')
                 </div>
             </div>

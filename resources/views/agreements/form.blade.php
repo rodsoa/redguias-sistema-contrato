@@ -3,7 +3,6 @@
     $customer = $agreement ? $agreement->customer : ($customer_id ? $customer : null);
     $isUpdate = $renew ? false : $isUpdate;
     $btnSubmitLabel = $renew ? 'Renovar' : $btnSubmitLabel;
-
 @endphp
 
 <div class="row">
@@ -47,7 +46,7 @@
                             <label for="deadline">Entrega</label>
                             <input
                                 type="text"
-                                class="form-control date"
+                                class="form-control date ignore"
                                 id="deadline"
                                 placeholder="00/00/0000"
                                 value="{{ optional(optional($agreement)->deadline)->format('d-m-Y') }}"
@@ -88,13 +87,13 @@
                         </div>
                         <div class="form-group col-sm-3">
                             <label for="cnpj">CPF/CNPJ</label>
-                            <input type="text" class="form-control cnpj disabled" id="cnpj" placeholder="CNPJ" value="{{ optional($customer)->cnpj }}" readonly>
+                            <input type="text" class="form-control disabled" id="cnpj" placeholder="CNPJ" value="{{ optional($customer)->cnpj }}" readonly>
                         </div>
                         <div class="form-group col-sm-3">
                             <label for="deadline">Data</label>
                             <input
                                 type="text"
-                                class="form-control date"
+                                class="form-control date ignore"
                                 @if($isUpdate)
                                     value="{{ $agreement->created_at->format('d/m/Y') }}"
                                 @else
@@ -230,6 +229,7 @@
                                         style="min-height: 120px;touch-action: none;"
                                     ></canvas>
                                     <input type="hidden" id="signature" name="signature" value="{{ optional($agreement)->signature }}">
+                                    <input type="hidden" id="sendMail" name="sendMail" value=0>
                                 </div>
                             </div>
                         </div>
@@ -241,7 +241,7 @@
                     <div class="float-right">
                         <button type="button" class="btn btn-default" onclick="clearSignaturePad()">Limpar Assinatura</button>
                         <button type="button" class="btn btn-primary" onclick="submitForm()">{{ $btnSubmitLabel }}</button>
-                        <button type="button" class="btn btn-primary" onclick="submitForm()">{{ $btnSubmitLabel }} e enviar</button>
+                        <button type="button" class="btn btn-primary" onclick="submitForm(true)">{{ $btnSubmitLabel }} e enviar</button>
                         <a role="button" class="btn btn-danger" href="{{ route('agreements.index') }}">Cancelar</a>
                     </div>
                 </div>
@@ -261,6 +261,11 @@
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@3.0.0-beta.3/dist/signature_pad.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-mask-plugin@1.14.16/dist/jquery.mask.min.js" integrity="sha256-Kg2zTcFO9LXOc7IwcBx1YeUBJmekycsnTsq2RuFHSZU=" crossorigin="anonymous"></script>
     <script>
+        $("#agreements-form").validate({
+            ignore: '.ignore'
+        });
+
+
         var canvas = document.querySelector("canvas");
         var signaturePad = new SignaturePad(canvas);
 
@@ -273,13 +278,19 @@
         }
 
         /**
+         * eventos
+         */
+         $('#cnpj').blur(function(evt) {
+            applyDocumentMask();
+         });
+
+        /**
          * MASCARAS
          */
         $('.date').mask('00/00/0000');
         $('.cep').mask('00000-000');
         $('.phone').mask('0000-0000');
         $('.phone_with_ddd').mask('(00) 0000-0000');
-        $('.cnpj').mask('00.000.000/0000-00', {reverse: true});
         $('.money2').mask("#.##0,00", {reverse: true});
 
         // Clears the canvas
@@ -288,7 +299,7 @@
         }
 
         // Submit Form with signature value
-        function submitForm() {
+        function submitForm(sendMail = false) {
             if (!signaturePad.isEmpty()) {
                 $('#signature').val(
                     signaturePad.toDataURL()
@@ -302,6 +313,13 @@
             }
 
             if ( $('#agreements-form').valid() ) {
+
+                if (sendMail) {
+                    $('#sendMail').val(1);
+                } else {
+                    $('#sendMail').val(0);
+                }
+
                 $('#agreements-form').submit();
             } else {
                 alert('Existem campos a serem preenchidos no formulário');

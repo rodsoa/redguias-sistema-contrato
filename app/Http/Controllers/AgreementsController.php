@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Domain\Models\Tables\Config;
 use App\Domain\Models\Tables\Customer;
 use App\Domain\Models\Tables\User;
 use App\Domain\Services\AgreementService;
+use App\Mail\AgreementMail;
 use Barryvdh\DomPDF\PDF;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class AgreementsController extends Controller
@@ -48,9 +51,17 @@ class AgreementsController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $this->service->create($request->all());
-
         try {
+            $agreement = $this->service->create($request->all());
+            if ($request->input('sendMail') == true) {
+                $preview = false;
+                $pdf = App::make('dompdf.wrapper');
+                $pdf->loadHTML(
+                    view('agreements.agreement_v2', compact('agreement', 'preview'))
+                ) ->setPaper('a4', 'landscape');
+
+                $this->sendEmail($agreement, $pdf);
+            }
         } catch (\Exception $e) {
             return back()
                 ->withInput()
@@ -62,7 +73,7 @@ class AgreementsController extends Controller
 
         return redirect()->route('agreements.index')->with([
             'status' => 'success',
-            'message' => 'cliente adicionado com sucesso!'
+            'message' => 'Contrato adicionado com sucesso!'
         ]);
     }
 
@@ -114,8 +125,17 @@ class AgreementsController extends Controller
      */
     public function update(Request $request, $id) //: RedirectResponse
     {
-        $this->service->update($request->all(), $id);
         try {
+            $agreement = $this->service->update($request->all(), $id);
+            if ($request->input('sendMail') == true) {
+                $preview = false;
+                $pdf = App::make('dompdf.wrapper');
+                $pdf->loadHTML(
+                    view('agreements.agreement_v2', compact('agreement', 'preview'))
+                ) ->setPaper('a4', 'landscape');
+
+                $this->sendEmail($agreement, $pdf);
+            }
         } catch (\Exception $e) {
             return back()
                 ->withInput()
@@ -127,7 +147,7 @@ class AgreementsController extends Controller
 
         return redirect()->route('agreements.index')->with([
             'status' => 'success',
-            'message' => 'Cliente atualizado com sucesso!'
+            'message' => 'Contrato atualizado com sucesso!'
         ]);
     }
 
@@ -150,18 +170,43 @@ class AgreementsController extends Controller
 
         return redirect()->route('agreements.index')->with([
             'status' => 'success',
-            'message' => 'Cliente apagado da base de dados.'
+            'message' => 'Contrato apagado da base de dados.'
         ]);
     }
 
-    public function download(int $id)
+    public function download(int $id, bool $preview = false)
     {
         $agreement = $this->service->findById($id);
 
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML(
-            view('agreements.agreement', compact('agreement'))
-        );
-        return $pdf->stream();
+            view('agreements.agreement_v2', compact('agreement', 'preview'))
+        ) ->setPaper('a4', 'landscape');
+
+        if ($preview) {
+            return view('agreements.agreement_v2', compact('agreement', 'preview'));
+        }
+
+        $this->sendEmail($agreement, $pdf);
+        return redirect()
+            ->back()
+            ->with([
+                'status' => 'success',
+                'message' => 'Contrato Enviado'
+            ]);
+    }
+
+    private function sendEmail($agreement, $pdf)
+    {
+        $emails = collect();
+        $adminEmails = Config::first();
+
+        $emails->add($agreement->employee->email);
+        $emails->add($agreement->customer->email);
+        $emails->add($adminEmails->primary_email);
+        $emails->add($adminEmails->secondary_email);
+
+        Mail::to($emails)
+            ->send(new AgreementMail($pdf->output('contrato.pdf')));
     }
 }

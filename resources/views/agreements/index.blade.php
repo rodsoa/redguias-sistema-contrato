@@ -78,7 +78,17 @@
                                                     <a
                                                         type="button"
                                                         class="btn btn-secondary"
-                                                        href="{{route('agreements.download', ['agreement' => $agreement->id])}}"
+                                                        href="{{route('agreements.download', ['agreement' => $agreement->id, 'preview' => 1])}}"
+                                                        title="email"
+                                                        target="_blank"
+                                                    >
+                                                        <i class="fa fa-fw fa-mail-bulk"></i>
+                                                        preview
+                                                    </a>
+                                                    <a
+                                                        type="button"
+                                                        class="btn btn-secondary"
+                                                        href="{{route('agreements.download', ['agreement' => $agreement->id, 'preview' => 0])}}"
                                                         title="email"
                                                     >
                                                         <i class="fa fa-fw fa-mail-bulk"></i>
